@@ -6,9 +6,16 @@ response = requests.get(url=url)
 response.encoding = 'utf-8'
 soup = BeautifulSoup(response.text, 'lxml')
 
-print(response.text)
+names_result = []
+pages = int([i.text for i in soup.find('div', class_="pagen").find_all('a')][-1])
 
+for i in range(1, pages + 1):
+    page = requests.get(f'http://parsinger.ru/html/index3_page_{i}.html')
+    page.encoding = 'utf-8'
+    soup2 = BeautifulSoup(page.text, 'lxml')
+    name1 = names_result.append([i.text for i in soup2.find('div', class_="item_card").find_all(class_="name_item")])
 
+print(names_result)
 
 
 
